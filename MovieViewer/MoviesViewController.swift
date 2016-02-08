@@ -29,7 +29,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         navigationBar.titleView = searchField
 
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: "refreshControlAction:", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.addTarget(self, action: "refreshControlAction:", forControlEvents: .ValueChanged)
         tableView.insertSubview(refreshControl, atIndex: 0)
 
         tableView.dataSource = self
@@ -89,9 +89,9 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     func makeAPICall(url: NSURL, completionHandler: (NSData?, NSURLResponse?, NSError?) -> Void) {
         let request = NSURLRequest(URL: url)
         let session = NSURLSession(
-            configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
+            configuration: .defaultSessionConfiguration(),
             delegate:nil,
-            delegateQueue:NSOperationQueue.mainQueue()
+            delegateQueue: .mainQueue()
         )
 
         let task : NSURLSessionDataTask = session.dataTaskWithRequest(request, completionHandler: completionHandler)
@@ -124,7 +124,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         }
         filtered = movieTitles.filter({ (text) -> Bool in
             let tmp: NSString = text
-            let range = tmp.rangeOfString(searchText, options: NSStringCompareOptions.CaseInsensitiveSearch)
+            let range = tmp.rangeOfString(searchText, options: .CaseInsensitiveSearch)
             return range.location != NSNotFound
         })
         if (filtered.count == 0) {
@@ -144,7 +144,11 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MovieCell", forIndexPath: indexPath) as! MovieCell
-        cell.accessoryType = UITableViewCellAccessoryType.None
+        cell.accessoryType = .None
+
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = UIColor(red: 0.7333, green: 0.902, blue: 0.9686, alpha: 1.0) /* #bbe6f7 */
+        cell.selectedBackgroundView = backgroundView
 
         let movie = getMovieAtIndexPath(indexPath)
         let title = getTitle(movie)

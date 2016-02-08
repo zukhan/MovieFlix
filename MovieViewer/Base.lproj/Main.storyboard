@@ -45,6 +45,7 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.90588241815567017" green="0.94117653369903564" blue="0.97254908084869385" alpha="1" colorSpace="deviceRGB"/>
                                         <connections>
                                             <outlet property="overviewLabel" destination="vhR-Tz-itY" id="9AK-K9-bPl"/>
                                             <outlet property="posterView" destination="bjX-8W-fym" id="nAY-TD-Unt"/>
@@ -172,6 +173,8 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="UyB-zz-zQ1">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="0.88235294117647056" green="0.92549019607843142" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.92549026012420654" green="0.9490196704864502" blue="0.97647064924240112" alpha="1" colorSpace="deviceRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>

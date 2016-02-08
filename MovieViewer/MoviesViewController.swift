@@ -16,6 +16,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var networkErrorLabel: UILabel!
 
     var movies: [NSDictionary] = []
+    var movieDetails = [Int: NSDictionary]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +37,47 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
 
         let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
         let url = NSURL(string:"http://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")!
+
+        makeAPICall(url, completionHandler: { (dataOrNil, response, error) in
+            // Hide HUD once the network request comes back (must be done on main UI thread)
+            MBProgressHUD.hideHUDForView(self.view, animated: true)
+
+            if let data = dataOrNil {
+                if let responseDictionary = try! NSJSONSerialization.JSONObjectWithData(data, options:[]) as? NSDictionary {
+                    if let movies = responseDictionary["results"] as? [NSDictionary] {
+                        self.movies = movies
+                        self.networkErrorLabel.hidden = true
+                        self.fetchMovieDetails(movies)
+                    }
+                }
+            } else {
+                self.networkErrorLabel.hidden = false
+            }
+            self.tableView.reloadData()
+            refreshControl.endRefreshing()
+        })
+    }
+
+    func fetchMovieDetails(movies: [NSDictionary]) {
+        let movieIds = movies.map { (let movie) -> Int in
+            return movie["id"] as! Int
+        }
+
+        let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
+
+        for movieId in movieIds {
+            let url = NSURL(string:"http://api.themoviedb.org/3/movie/\(movieId)?api_key=\(apiKey)")!
+            makeAPICall(url, completionHandler: { (dataOrNil, response, error) in
+                if let data = dataOrNil {
+                    if let movie = try! NSJSONSerialization.JSONObjectWithData(data, options:[]) as? NSDictionary {
+                        self.movieDetails[movieId] = movie
+                    }
+                }
+            })
+        }
+    }
+
+    func makeAPICall(url: NSURL, completionHandler: (NSData?, NSURLResponse?, NSError?) -> Void) {
         let request = NSURLRequest(URL: url)
         let session = NSURLSession(
             configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
@@ -43,25 +85,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             delegateQueue:NSOperationQueue.mainQueue()
         )
 
-        let task : NSURLSessionDataTask = session.dataTaskWithRequest(request,
-            completionHandler: { (dataOrNil, response, error) in
-                // Hide HUD once the network request comes back (must be done on main UI thread)
-                MBProgressHUD.hideHUDForView(self.view, animated: true)
-
-                if let data = dataOrNil {
-                    if let responseDictionary = try! NSJSONSerialization.JSONObjectWithData(data, options:[]) as? NSDictionary {
-                        if let movies = responseDictionary["results"] as? [NSDictionary] {
-                            self.movies = movies
-                            self.networkErrorLabel.hidden = true
-                        }
-                    }
-                } else {
-                    self.networkErrorLabel.hidden = false
-                }
-                self.tableView.reloadData()
-                refreshControl.endRefreshing()
-            }
-        )
+        let task : NSURLSessionDataTask = session.dataTaskWithRequest(request, completionHandler: completionHandler)
         task.resume()
     }
 
@@ -119,7 +143,17 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     private func getReleaseDate(movie: NSDictionary) -> String {
-        return getMovieField(movie, fieldName: "release_date")
+        if let releaseDateStr = movie["release_date"] as? String {
+            let inputDateFormatter = NSDateFormatter()
+            inputDateFormatter.dateFormat = "yyyy-MM-dd"
+
+            if let date = inputDateFormatter.dateFromString(releaseDateStr) {
+                let outputDateFormatter = NSDateFormatter()
+                outputDateFormatter.dateStyle = NSDateFormatterStyle.LongStyle
+                return outputDateFormatter.stringFromDate(date)
+            }
+        }
+        return ""
     }
 
     private func getRating(movie: NSDictionary) -> String {
@@ -131,7 +165,20 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     private func getRuntime(movie: NSDictionary) -> String {
-        return getMovieField(movie, fieldName: "runtime")
+        let id = movie["id"] as! Int
+        if let details = movieDetails[id] {
+            var runtime = details["runtime"] as! Int
+
+            var hours = 0
+            var mins = 0
+            while runtime >= 60 {
+                runtime -= 60
+                hours++
+            }
+            mins = runtime
+            return "\(hours) hr \(mins) mins"
+        }
+        return ""
     }
 
     private func getOverview(movie: NSDictionary) -> String {

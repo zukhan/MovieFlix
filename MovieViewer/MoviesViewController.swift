@@ -10,16 +10,23 @@ import UIKit
 import AFNetworking
 import MBProgressHUD
 
-class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var networkErrorLabel: UILabel!
+    @IBOutlet weak var navigationBar: UINavigationItem!
+    @IBOutlet weak var searchField: UISearchBar!
 
+    var searchActive = false
     var movies: [NSDictionary] = []
     var movieDetails = [Int: NSDictionary]()
+    var movieTitleToIdLookup = [String: Int]()
+    var filtered: [String] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        navigationBar.titleView = searchField
 
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "refreshControlAction:", forControlEvents: UIControlEvents.ValueChanged)
@@ -27,6 +34,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
 
         tableView.dataSource = self
         tableView.delegate = self
+        searchField.delegate = self
 
         refreshControlAction(refreshControl)
     }
@@ -71,6 +79,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                 if let data = dataOrNil {
                     if let movie = try! NSJSONSerialization.JSONObjectWithData(data, options:[]) as? NSDictionary {
                         self.movieDetails[movieId] = movie
+                        self.movieTitleToIdLookup[self.getTitle(movie)] = movieId
                     }
                 }
             })
@@ -93,7 +102,43 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         super.didReceiveMemoryWarning()
     }
 
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        searchActive = true;
+    }
+
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        searchActive = false;
+    }
+
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        searchActive = false;
+    }
+
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        searchActive = false;
+    }
+
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        let movieTitles = movies.map { (let movie) -> String in
+            return movie["title"] as! String
+        }
+        filtered = movieTitles.filter({ (text) -> Bool in
+            let tmp: NSString = text
+            let range = tmp.rangeOfString(searchText, options: NSStringCompareOptions.CaseInsensitiveSearch)
+            return range.location != NSNotFound
+        })
+        if (filtered.count == 0) {
+            searchActive = false;
+        } else {
+            searchActive = true;
+        }
+        self.tableView.reloadData()
+    }
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if (searchActive) {
+            return filtered.count
+        }
         return movies.count
     }
 
@@ -101,7 +146,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let cell = tableView.dequeueReusableCellWithIdentifier("MovieCell", forIndexPath: indexPath) as! MovieCell
         cell.accessoryType = UITableViewCellAccessoryType.None
 
-        let movie = movies[indexPath.row]
+        let movie = getMovieAtIndexPath(indexPath)
         let title = getTitle(movie)
         let overview = getOverview(movie)
 
@@ -113,6 +158,14 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         cell.overviewLabel.text = overview
 
         return cell
+    }
+
+    func getMovieAtIndexPath(indexPath: NSIndexPath) -> NSDictionary {
+        if (searchActive) {
+            let title = filtered[indexPath.row]
+            return movieDetails[movieTitleToIdLookup[title]!]!
+        }
+        return movies[indexPath.row]
     }
 
     func fetchAndDisplayImage(imageView: UIImageView, url: NSURL) {

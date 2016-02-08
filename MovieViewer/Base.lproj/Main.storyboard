@@ -62,13 +62,20 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <searchBar contentMode="redraw" id="zfR-dD-Nlr">
+                                <rect key="frame" x="0.0" y="211" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="dHa-eh-91I"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="navigationBar" destination="dHa-eh-91I" id="zmM-ia-uup"/>
                         <outlet property="networkErrorLabel" destination="PJL-Ji-Ve3" id="7H4-8l-pKh"/>
+                        <outlet property="searchField" destination="zfR-dD-Nlr" id="ptX-XY-oKl"/>
                         <outlet property="tableView" destination="Qkw-lk-52s" id="OKE-Ke-jBD"/>
                     </connections>
                 </viewController>

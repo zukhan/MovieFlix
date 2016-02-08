@@ -8,19 +8,31 @@
 
 import UIKit
 import AFNetworking
+import MBProgressHUD
 
 class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var networkErrorLabel: UILabel!
 
-    var movies: [NSDictionary]?
+    var movies: [NSDictionary] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: "refreshControlAction:", forControlEvents: UIControlEvents.ValueChanged)
+        tableView.insertSubview(refreshControl, atIndex: 0)
+
         tableView.dataSource = self
         tableView.delegate = self
 
+        refreshControlAction(refreshControl)
+    }
+
+    func refreshControlAction(refreshControl: UIRefreshControl) {
+        // Display HUD right before the request is made
+        MBProgressHUD.showHUDAddedTo(self.view, animated: true)
 
         let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
         let url = NSURL(string:"http://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")!
@@ -33,16 +45,24 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
 
         let task : NSURLSessionDataTask = session.dataTaskWithRequest(request,
             completionHandler: { (dataOrNil, response, error) in
+                // Hide HUD once the network request comes back (must be done on main UI thread)
+                MBProgressHUD.hideHUDForView(self.view, animated: true)
+
                 if let data = dataOrNil {
                     if let responseDictionary = try! NSJSONSerialization.JSONObjectWithData(data, options:[]) as? NSDictionary {
-                        self.movies = responseDictionary["results"] as? [NSDictionary]
+                        if let movies = responseDictionary["results"] as? [NSDictionary] {
+                            self.movies = movies
+                            self.networkErrorLabel.hidden = true
+                        }
                     }
+                } else {
+                    self.networkErrorLabel.hidden = false
                 }
                 self.tableView.reloadData()
+                refreshControl.endRefreshing()
             }
         )
         task.resume()
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -50,28 +70,37 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let movies = movies {
-            return movies.count
-        } else {
-            return 0
-        }
+        return movies.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MovieCell", forIndexPath: indexPath) as! MovieCell
 
-        let movie = movies![indexPath.row]
-        if let title = movie["title"] as? String {
-            if let overview = movie["overview"] as? String {
-                cell.titleLabel.text = title
-                cell.overviewLabel.text = overview
-                if let url = getImageURL(movie) {
-                    cell.posterView.setImageWithURL(url)
-                }
-            }
+        let movie = movies[indexPath.row]
+        let title = getMovieTitle(movie)
+        let overview = getMovieOverview(movie)
+
+        if let url = getImageURL(movie) {
+            cell.posterView.setImageWithURL(url)
         }
+        cell.titleLabel.text = title
+        cell.overviewLabel.text = overview
 
         return cell
+    }
+
+    private func getMovieTitle(movie: NSDictionary) -> String {
+        if let title = movie["title"] as? String {
+            return title
+        }
+        return ""
+    }
+
+    private func getMovieOverview(movie: NSDictionary) -> String {
+        if let overview = movie["overview"] as? String {
+            return overview
+        }
+        return ""
     }
 
     private func getImageURL(movie: NSDictionary) -> NSURL? {
@@ -86,10 +115,13 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let viewController = segue.destinationViewController as! MovieDetailsViewController
         let indexPath = tableView.indexPathForCell(sender as! UITableViewCell)!
+        let movie = movies[indexPath.row]
 
-        if let posterUrl = getImageURL(movies![indexPath.row]) {
+        if let posterUrl = getImageURL(movie) {
             viewController.posterURL = posterUrl
         }
+        viewController.detailsText = getMovieOverview(movie)
+        viewController.titleText = getMovieTitle(movie)
     }
 
 }

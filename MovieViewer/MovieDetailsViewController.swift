@@ -30,7 +30,7 @@ class MovieDetailsViewController: UIViewController {
 
     override func viewDidAppear(animated: Bool) {
         if let posterURL = posterURL {
-            posterView.setImageWithURL(posterURL)
+            fetchAndDisplayImage(posterView, url: posterURL)
         }
         titleLabel.text = titleText
         overviewLabel.text = detailsText
@@ -47,6 +47,29 @@ class MovieDetailsViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+
+    func fetchAndDisplayImage(imageView: UIImageView, url: NSURL) {
+        let imageRequest = NSURLRequest(URL: url)
+        imageView.setImageWithURLRequest(
+            imageRequest,
+            placeholderImage: nil,
+            success: { (imageRequest, imageResponse, image) -> Void in
+                // imageResponse will be nil if the image is cached
+                if imageResponse != nil {
+                    imageView.alpha = 0.0
+                    imageView.image = image
+                    UIView.animateWithDuration(0.3, animations: { () -> Void in
+                        imageView.alpha = 1.0
+                    })
+                } else {
+                    imageView.image = image
+                }
+            },
+            failure: { (imageRequest, imageResponse, error) -> Void in
+                // do something for the failure condition
+            }
+        )
     }
 
 }

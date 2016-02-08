@@ -81,12 +81,36 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let overview = getMovieOverview(movie)
 
         if let url = getImageURL(movie) {
-            cell.posterView.setImageWithURL(url)
+            fetchAndDisplayImage(cell.posterView, url: url)
         }
+
         cell.titleLabel.text = title
         cell.overviewLabel.text = overview
 
         return cell
+    }
+
+    func fetchAndDisplayImage(imageView: UIImageView, url: NSURL) {
+        let imageRequest = NSURLRequest(URL: url)
+        imageView.setImageWithURLRequest(
+            imageRequest,
+            placeholderImage: nil,
+            success: { (imageRequest, imageResponse, image) -> Void in
+                // imageResponse will be nil if the image is cached
+                if imageResponse != nil {
+                    imageView.alpha = 0.0
+                    imageView.image = image
+                    UIView.animateWithDuration(0.3, animations: { () -> Void in
+                        imageView.alpha = 1.0
+                    })
+                } else {
+                    imageView.image = image
+                }
+            },
+            failure: { (imageRequest, imageResponse, error) -> Void in
+                // do something for the failure condition
+            }
+        )
     }
 
     private func getMovieTitle(movie: NSDictionary) -> String {

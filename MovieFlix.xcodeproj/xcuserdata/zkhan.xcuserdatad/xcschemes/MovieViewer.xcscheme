@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "943B14571C607C3E00C5C42E"
-               BuildableName = "MovieViewer.app"
-               BlueprintName = "MovieViewer"
-               ReferencedContainer = "container:MovieViewer.xcodeproj">
+               BuildableName = "MovieFlix.app"
+               BlueprintName = "MovieFlix"
+               ReferencedContainer = "container:MovieFlix.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "943B14571C607C3E00C5C42E"
-            BuildableName = "MovieViewer.app"
-            BlueprintName = "MovieViewer"
-            ReferencedContainer = "container:MovieViewer.xcodeproj">
+            BuildableName = "MovieFlix.app"
+            BlueprintName = "MovieFlix"
+            ReferencedContainer = "container:MovieFlix.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -56,9 +56,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "943B14571C607C3E00C5C42E"
-            BuildableName = "MovieViewer.app"
-            BlueprintName = "MovieViewer"
-            ReferencedContainer = "container:MovieViewer.xcodeproj">
+            BuildableName = "MovieFlix.app"
+            BlueprintName = "MovieFlix"
+            ReferencedContainer = "container:MovieFlix.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -75,9 +75,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "943B14571C607C3E00C5C42E"
-            BuildableName = "MovieViewer.app"
-            BlueprintName = "MovieViewer"
-            ReferencedContainer = "container:MovieViewer.xcodeproj">
+            BuildableName = "MovieFlix.app"
+            BlueprintName = "MovieFlix"
+            ReferencedContainer = "container:MovieFlix.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

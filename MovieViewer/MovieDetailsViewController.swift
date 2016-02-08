@@ -12,14 +12,21 @@ import AFNetworking
 class MovieDetailsViewController: UIViewController {
 
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var detailsScrollView: UIScrollView!
+    @IBOutlet weak var releaseDateLabel: UILabel!
+    @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var runtimeLabel: UILabel!
     @IBOutlet weak var overviewLabel: UILabel!
+
     @IBOutlet weak var posterView: UIImageView!
     @IBOutlet weak var detailsView: UIView!
+    @IBOutlet weak var detailsScrollView: UIScrollView!
 
     var posterURL: NSURL?
-    var detailsText: String = ""
     var titleText: String = ""
+    var releaseDateText: String = ""
+    var ratingText: String = ""
+    var runtimeText: String = ""
+    var overviewText: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,11 +40,15 @@ class MovieDetailsViewController: UIViewController {
             fetchAndDisplayImage(posterView, url: posterURL)
         }
         titleLabel.text = titleText
-        overviewLabel.text = detailsText
+        ratingLabel.text = ratingText
+        releaseDateLabel.text = releaseDateText
+        runtimeLabel.text = runtimeText
+        overviewLabel.text = overviewText
+
         overviewLabel.sizeToFit()
 
         let contentWidth = detailsScrollView.bounds.width
-        let contentHeight = overviewLabel.frame.height + 50
+        let contentHeight = overviewLabel.frame.height + 85
 
         var newFrame = detailsView.frame
         newFrame.size.height = contentHeight

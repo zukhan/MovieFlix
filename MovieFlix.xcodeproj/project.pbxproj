@@ -21,7 +21,7 @@
 		0719CE561B1E3582CD62D7F7 /* Pods_MovieViewer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MovieViewer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		55357E0C6EF7B53BA3EC43BC /* Pods-MovieViewer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieViewer.release.xcconfig"; path = "Pods/Target Support Files/Pods-MovieViewer/Pods-MovieViewer.release.xcconfig"; sourceTree = "<group>"; };
 		941863B11C63DD1300C5C42E /* MovieCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
-		943B14581C607C3E00C5C42E /* MovieViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		943B14581C607C3E00C5C42E /* MovieFlix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieFlix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		943B145B1C607C3E00C5C42E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		943B14601C607C3F00C5C42E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		943B14621C607C3F00C5C42E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -73,7 +73,7 @@
 		943B144F1C607C3E00C5C42E = {
 			isa = PBXGroup;
 			children = (
-				943B145A1C607C3E00C5C42E /* MovieViewer */,
+				943B145A1C607C3E00C5C42E /* MovieFlix */,
 				943B14591C607C3E00C5C42E /* Products */,
 				339EAFC13A3497A423E69344 /* Pods */,
 				E8FB15B1806B9C73231B7DAD /* Frameworks */,
@@ -83,12 +83,12 @@
 		943B14591C607C3E00C5C42E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				943B14581C607C3E00C5C42E /* MovieViewer.app */,
+				943B14581C607C3E00C5C42E /* MovieFlix.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		943B145A1C607C3E00C5C42E /* MovieViewer */ = {
+		943B145A1C607C3E00C5C42E /* MovieFlix */ = {
 			isa = PBXGroup;
 			children = (
 				941863B31C63DD4D00C5C42E /* View Controllers */,
@@ -99,6 +99,7 @@
 				943B14641C607C3F00C5C42E /* LaunchScreen.storyboard */,
 				943B14671C607C3F00C5C42E /* Info.plist */,
 			);
+			name = MovieFlix;
 			path = MovieViewer;
 			sourceTree = "<group>";
 		};
@@ -113,9 +114,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		943B14571C607C3E00C5C42E /* MovieViewer */ = {
+		943B14571C607C3E00C5C42E /* MovieFlix */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 943B146A1C607C3F00C5C42E /* Build configuration list for PBXNativeTarget "MovieViewer" */;
+			buildConfigurationList = 943B146A1C607C3F00C5C42E /* Build configuration list for PBXNativeTarget "MovieFlix" */;
 			buildPhases = (
 				AF881B23C8778D02DFD9A730 /* Check Pods Manifest.lock */,
 				943B14541C607C3E00C5C42E /* Sources */,
@@ -128,9 +129,9 @@
 			);
 			dependencies = (
 			);
-			name = MovieViewer;
+			name = MovieFlix;
 			productName = MovieViewer;
-			productReference = 943B14581C607C3E00C5C42E /* MovieViewer.app */;
+			productReference = 943B14581C607C3E00C5C42E /* MovieFlix.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -148,7 +149,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 943B14531C607C3E00C5C42E /* Build configuration list for PBXProject "MovieViewer" */;
+			buildConfigurationList = 943B14531C607C3E00C5C42E /* Build configuration list for PBXProject "MovieFlix" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -161,7 +162,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				943B14571C607C3E00C5C42E /* MovieViewer */,
+				943B14571C607C3E00C5C42E /* MovieFlix */,
 			);
 		};
 /* End PBXProject section */
@@ -349,8 +350,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = MovieViewer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.zapps.MovieViewer;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.zapps.MovieFlix;
+				PRODUCT_NAME = MovieFlix;
 			};
 			name = Debug;
 		};
@@ -361,15 +362,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = MovieViewer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.zapps.MovieViewer;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.zapps.MovieFlix;
+				PRODUCT_NAME = MovieFlix;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		943B14531C607C3E00C5C42E /* Build configuration list for PBXProject "MovieViewer" */ = {
+		943B14531C607C3E00C5C42E /* Build configuration list for PBXProject "MovieFlix" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				943B14681C607C3F00C5C42E /* Debug */,
@@ -378,7 +379,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		943B146A1C607C3F00C5C42E /* Build configuration list for PBXNativeTarget "MovieViewer" */ = {
+		943B146A1C607C3F00C5C42E /* Build configuration list for PBXNativeTarget "MovieFlix" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				943B146B1C607C3F00C5C42E /* Debug */,

@@ -75,10 +75,11 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MovieCell", forIndexPath: indexPath) as! MovieCell
+        cell.accessoryType = UITableViewCellAccessoryType.None
 
         let movie = movies[indexPath.row]
-        let title = getMovieTitle(movie)
-        let overview = getMovieOverview(movie)
+        let title = getTitle(movie)
+        let overview = getOverview(movie)
 
         if let url = getImageURL(movie) {
             fetchAndDisplayImage(cell.posterView, url: url)
@@ -113,16 +114,33 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         )
     }
 
-    private func getMovieTitle(movie: NSDictionary) -> String {
-        if let title = movie["title"] as? String {
-            return title
+    private func getTitle(movie: NSDictionary) -> String {
+        return getMovieField(movie, fieldName: "title")
+    }
+
+    private func getReleaseDate(movie: NSDictionary) -> String {
+        return getMovieField(movie, fieldName: "release_date")
+    }
+
+    private func getRating(movie: NSDictionary) -> String {
+        if let rating = movie["vote_average"] as? Double {
+            let percentRating = Int(rating * 10)
+            return "Rating: " + String(percentRating) + "%"
         }
         return ""
     }
 
-    private func getMovieOverview(movie: NSDictionary) -> String {
-        if let overview = movie["overview"] as? String {
-            return overview
+    private func getRuntime(movie: NSDictionary) -> String {
+        return getMovieField(movie, fieldName: "runtime")
+    }
+
+    private func getOverview(movie: NSDictionary) -> String {
+        return getMovieField(movie, fieldName: "overview")
+    }
+
+    private func getMovieField(movie: NSDictionary, fieldName: String) -> String {
+        if let field = movie[fieldName] as? String {
+            return field
         }
         return ""
     }
@@ -144,8 +162,11 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         if let posterUrl = getImageURL(movie) {
             viewController.posterURL = posterUrl
         }
-        viewController.detailsText = getMovieOverview(movie)
-        viewController.titleText = getMovieTitle(movie)
+        viewController.titleText = getTitle(movie)
+        viewController.releaseDateText = getReleaseDate(movie)
+        viewController.ratingText = getRating(movie)
+        viewController.runtimeText = getRuntime(movie)
+        viewController.overviewText = getOverview(movie)
     }
 
 }

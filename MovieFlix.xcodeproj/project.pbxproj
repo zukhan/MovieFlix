@@ -14,6 +14,7 @@
 		943B14661C607C3F00C5C42E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 943B14641C607C3F00C5C42E /* LaunchScreen.storyboard */; };
 		943B146E1C607C9300C5C42E /* MoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943B146D1C607C9300C5C42E /* MoviesViewController.swift */; };
 		947A14591C66CC5300C5C42E /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 947A14581C66CC5300C5C42E /* MovieDetailsViewController.swift */; };
+		94AFB88A1C68C33700C5C42E /* film_reel.png in Resources */ = {isa = PBXBuildFile; fileRef = 94AFB8891C68C33700C5C42E /* film_reel.png */; };
 		9E8FCD2981D3B507E25E4B38 /* Pods_MovieViewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0719CE561B1E3582CD62D7F7 /* Pods_MovieViewer.framework */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +30,7 @@
 		943B14671C607C3F00C5C42E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		943B146D1C607C9300C5C42E /* MoviesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoviesViewController.swift; sourceTree = "<group>"; };
 		947A14581C66CC5300C5C42E /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
+		94AFB8891C68C33700C5C42E /* film_reel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = film_reel.png; sourceTree = "<group>"; };
 		E1AEA5C0714C0201BD82E16E /* Pods-MovieViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MovieViewer/Pods-MovieViewer.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -96,6 +98,7 @@
 				943B145B1C607C3E00C5C42E /* AppDelegate.swift */,
 				943B145F1C607C3F00C5C42E /* Main.storyboard */,
 				943B14621C607C3F00C5C42E /* Assets.xcassets */,
+				94AFB8891C68C33700C5C42E /* film_reel.png */,
 				943B14641C607C3F00C5C42E /* LaunchScreen.storyboard */,
 				943B14671C607C3F00C5C42E /* Info.plist */,
 			);
@@ -175,6 +178,7 @@
 				943B14661C607C3F00C5C42E /* LaunchScreen.storyboard in Resources */,
 				943B14631C607C3F00C5C42E /* Assets.xcassets in Resources */,
 				943B14611C607C3F00C5C42E /* Main.storyboard in Resources */,
+				94AFB88A1C68C33700C5C42E /* film_reel.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

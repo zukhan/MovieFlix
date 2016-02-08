@@ -119,6 +119,12 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchField.text!.isEmpty{
+            searchActive = false
+            tableView.reloadData()
+            return
+        }
+
         let movieTitles = movies.map { (let movie) -> String in
             return movie["title"] as! String
         }
@@ -225,6 +231,9 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let id = movie["id"] as! Int
         if let details = movieDetails[id] {
             var runtime = details["runtime"] as! Int
+            if runtime == 0 {
+                return ""
+            }
 
             var hours = 0
             var mins = 0
@@ -261,7 +270,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let viewController = segue.destinationViewController as! MovieDetailsViewController
         let indexPath = tableView.indexPathForCell(sender as! UITableViewCell)!
-        let movie = movies[indexPath.row]
+        let movie = getMovieAtIndexPath(indexPath)
 
         if let lowResPosterUrl = getImageURL(movie, size: "w154") {
             viewController.lowResPosterURL = lowResPosterUrl

@@ -33,7 +33,7 @@ class MovieDetailsViewController: UIViewController {
         super.viewDidLoad()
 
         detailsScrollView.contentInset = UIEdgeInsets.init()
-        detailsScrollView.contentInset.top = 500
+        detailsScrollView.contentInset.top = 470
 
         initView()
     }

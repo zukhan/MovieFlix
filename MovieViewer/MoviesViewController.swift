@@ -150,7 +150,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let title = getTitle(movie)
         let overview = getOverview(movie)
 
-        if let url = getImageURL(movie) {
+        if let url = getImageURL(movie, size: "w154") {
             fetchAndDisplayImage(cell.posterView, url: url)
         }
 
@@ -245,10 +245,10 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         return ""
     }
 
-    private func getImageURL(movie: NSDictionary) -> NSURL? {
+    private func getImageURL(movie: NSDictionary, size: String = "w500") -> NSURL? {
         var url: NSURL? = nil
         if let posterpath = movie["poster_path"] as? String {
-            let baseurl = "http://image.tmdb.org/t/p/w500"
+            let baseurl = "http://image.tmdb.org/t/p/" + size
             url = NSURL(string: baseurl + posterpath)
         }
         return url
@@ -259,6 +259,9 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let indexPath = tableView.indexPathForCell(sender as! UITableViewCell)!
         let movie = movies[indexPath.row]
 
+        if let lowResPosterUrl = getImageURL(movie, size: "w154") {
+            viewController.lowResPosterURL = lowResPosterUrl
+        }
         if let posterUrl = getImageURL(movie) {
             viewController.posterURL = posterUrl
         }

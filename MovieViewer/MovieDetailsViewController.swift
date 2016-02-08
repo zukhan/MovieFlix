@@ -22,6 +22,7 @@ class MovieDetailsViewController: UIViewController {
     @IBOutlet weak var detailsScrollView: UIScrollView!
 
     var posterURL: NSURL?
+    var lowResPosterURL: NSURL?
     var titleText: String = ""
     var releaseDateText: String = ""
     var ratingText: String = ""
@@ -33,11 +34,16 @@ class MovieDetailsViewController: UIViewController {
 
         detailsScrollView.contentInset = UIEdgeInsets.init()
         detailsScrollView.contentInset.top = 500
+
+        initView()
     }
 
-    override func viewDidAppear(animated: Bool) {
+    func initView() {
+        if let lowResPosterURL = lowResPosterURL {
+            posterView.setImageWithURL(lowResPosterURL)
+        }
         if let posterURL = posterURL {
-            fetchAndDisplayImage(posterView, url: posterURL)
+            posterView.setImageWithURL(posterURL)
         }
         titleLabel.text = titleText
         ratingLabel.text = ratingText
@@ -58,29 +64,6 @@ class MovieDetailsViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-
-    func fetchAndDisplayImage(imageView: UIImageView, url: NSURL) {
-        let imageRequest = NSURLRequest(URL: url)
-        imageView.setImageWithURLRequest(
-            imageRequest,
-            placeholderImage: nil,
-            success: { (imageRequest, imageResponse, image) -> Void in
-                // imageResponse will be nil if the image is cached
-                if imageResponse != nil {
-                    imageView.alpha = 0.0
-                    imageView.image = image
-                    UIView.animateWithDuration(0.3, animations: { () -> Void in
-                        imageView.alpha = 1.0
-                    })
-                } else {
-                    imageView.image = image
-                }
-            },
-            failure: { (imageRequest, imageResponse, error) -> Void in
-                // do something for the failure condition
-            }
-        )
     }
 
 }
